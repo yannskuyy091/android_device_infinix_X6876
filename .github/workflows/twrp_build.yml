@@ -40,9 +40,9 @@ jobs:
           repo sync -j$(nproc) --force-sync --no-clone-bundle --no-tags
 
       - name: Link Device Tree
-        run: |
-          mkdir -p ~/twrp/device/infinix
-          ln -s $GITHUB_WORKSPACE ~/twrp/device/infinix/X6876
+            run: |
+              mkdir -p ~/twrp/device/infinix
+              cp -r $GITHUB_WORKSPACE ~/twrp/device/infinix/X6876
 
       - name: Start Compilation
         run: |

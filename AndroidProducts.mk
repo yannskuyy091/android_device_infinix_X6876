@@ -3,7 +3,7 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device.mk
+    $(LOCAL_DIR)/twrp_X6876.mk
 
 COMMON_LUNCH_CHOICES := \
     twrp_X6876-eng \
