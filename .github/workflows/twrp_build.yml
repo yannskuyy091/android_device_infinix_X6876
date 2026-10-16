@@ -66,6 +66,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Infinix-GT-30-TWRP
-          path: |
-            /home/runner/twrp/out/target/product/*/*.img
-            /home/runner/twrp/out/target/product/*/*.zip
+
+      - name: Upload Recovery Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: Infinix-GT-30-TWRP
+          path: /home/runner/twrp/out/target/product/X6876/*.img
+          if-no-files-found: warn
