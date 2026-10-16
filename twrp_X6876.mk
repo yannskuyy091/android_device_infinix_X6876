@@ -2,11 +2,9 @@
 # Copyright (C) 2026 The TWRP Open Source Project
 #
 
-# Enable Virtual A/B
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
-
 # Inherit OEM product configs
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_arm64.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
 # Product Identifier
 PRODUCT_NAME := twrp_X6876

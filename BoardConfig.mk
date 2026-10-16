@@ -31,6 +31,9 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 TARGET_2ND_CPU_SMP := true
 
+# Enable 64-bit support
+TARGET_SUPPORTS_64_BIT_APPS := true
+
 # Bootloader / Platform
 TARGET_BOOTLOADER_BOARD_NAME := mt6878
 TARGET_BOARD_PLATFORM := mt6878
