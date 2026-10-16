@@ -67,5 +67,5 @@ jobs:
         with:
           name: Infinix-GT-30-TWRP
           path: |
-            /home/runner/twrp/out/target/product/X6876/vendor_boot.img
-            /home/runner/twrp/out/target/product/X6876/recovery.img
+            /home/runner/twrp/out/target/product/*/*.img
+            /home/runner/twrp/out/target/product/*/*.zip
