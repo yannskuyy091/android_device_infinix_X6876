@@ -72,4 +72,3 @@ jobs:
         with:
           name: Infinix-GT-30-TWRP
           path: /home/runner/twrp/out/target/product/X6876/*.img
-          if-no-files-found: warn
