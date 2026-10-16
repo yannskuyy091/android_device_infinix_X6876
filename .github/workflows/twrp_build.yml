@@ -2,6 +2,9 @@ name: Build TWRP for Infinix GT 30
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -10,7 +13,7 @@ jobs:
       - name: Checkout Device Tree
         uses: actions/checkout@v4
 
-      - name: Clean Up Disk Space (Manual)
+      - name: Clean Up Disk Space
         run: |
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
@@ -18,7 +21,6 @@ jobs:
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           sudo docker image prune --all --force
           sudo apt-get clean
-          df -h
 
       - name: Install Build Dependencies
         run: |
@@ -40,9 +42,9 @@ jobs:
           repo sync -j$(nproc) --force-sync --no-clone-bundle --no-tags
 
       - name: Link Device Tree
-            run: |
-              mkdir -p ~/twrp/device/infinix
-              cp -r $GITHUB_WORKSPACE ~/twrp/device/infinix/X6876
+        run: |
+          mkdir -p ~/twrp/device/infinix
+          cp -r $GITHUB_WORKSPACE ~/twrp/device/infinix/X6876
 
       - name: Start Compilation
         run: |
