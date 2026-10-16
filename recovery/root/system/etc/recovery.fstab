@@ -1,0 +1,41 @@
+# Android fstab file for TWRP - Infinix GT 30 (X6876 / mt6878)
+
+# Logical Partitions (Dynamic)
+system          /system         erofs   ro                              wait,logical,first_stage_mount
+system_ext      /system_ext     erofs   ro                              wait,logical,first_stage_mount
+vendor          /vendor         erofs   ro                              wait,logical,first_stage_mount
+product         /product        erofs   ro                              wait,logical,first_stage_mount
+odm             /odm            erofs   ro                              wait,logical,first_stage_mount
+vendor_dlkm     /vendor_dlkm    erofs   ro                              wait,logical,first_stage_mount
+odm_dlkm        /odm_dlkm       erofs   ro                              wait,logical,first_stage_mount
+system_dlkm     /system_dlkm    erofs   ro                              wait,logical,first_stage_mount
+
+# Physical Partitions
+/dev/block/by-name/metadata     /metadata       f2fs    noatime,nosuid,nodev            wait,check,formattable,first_stage_mount
+/dev/block/by-name/userdata     /data           f2fs    noatime,nosuid,nodev,discard    wait,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2
+/dev/block/by-name/cache        /cache          ext4    noatime,nosuid,nodev            wait,check,formattable
+/dev/block/by-name/protect1     /protect_f      ext4    noatime,nosuid,nodev            wait,check,formattable
+/dev/block/by-name/protect2     /protect_s      ext4    noatime,nosuid,nodev            wait,check,formattable
+/dev/block/by-name/nvdata       /nvdata         ext4    noatime,nosuid,nodev            wait,check,formattable
+/dev/block/by-name/nvcfg        /nvcfg          ext4    noatime,nosuid,nodev            wait,check,formattable
+/dev/block/by-name/persist      /persist        ext4    noatime,nosuid,nodev            wait,check,formattable
+/dev/block/by-name/tranfs       /tranfs         ext4    noatime,nosuid,nodev            wait,check,formattable
+
+# Removable Storage
+/dev/block/mmcblk0p1            /external_sd    vfat    defaults                        voldmanaged=sdcard1:auto
+/dev/block/sda1                 /usb_otg        vfat    defaults                        voldmanaged=usbotg:auto
+
+# Flashable Images (Emmc / Boot)
+/dev/block/by-name/boot         /boot           emmc    defaults                        first_stage_mount,slotselect
+/dev/block/by-name/init_boot    /init_boot      emmc    defaults                        defaults
+/dev/block/by-name/vendor_boot  /vendor_boot    emmc    defaults                        defaults
+/dev/block/by-name/dtbo         /dtbo           emmc    defaults                        defaults
+/dev/block/by-name/vbmeta       /vbmeta         emmc    defaults                        defaults
+/dev/block/by-name/vbmeta_system /vbmeta_system emmc    defaults                        defaults
+/dev/block/by-name/vbmeta_vendor /vbmeta_vendor emmc    defaults                        defaults
+/dev/block/by-name/recovery     /recovery       emmc    defaults                        defaults
+/dev/block/by-name/misc         /misc           emmc    defaults                        defaults
+/dev/block/by-name/logo         /logo           emmc    defaults                        defaults
+/dev/block/by-name/expdb        /expdb          emmc    defaults                        defaults
+/dev/block/by-name/seccfg      /seccfg         emmc    defaults                        defaults
+/dev/block/by-name/para         /para           emmc    defaults                        defaults
