@@ -1,0 +1,61 @@
+name: Build TWRP for Infinix GT 30
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Device Tree
+        uses: actions/checkout@v4
+
+      - name: Maximize Build Space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-swap-size-mb: 10240
+          temp-dir-size-mb: 20480
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bc bison build-type ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc yasm zip zlib1g-dev
+
+      - name: Install Repo Tool
+        run: |
+          mkdir -p ~/bin
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+          chmod a+x ~/bin/repo
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Initialize TWRP Source
+        run: |
+          mkdir -p ~/twrp
+          cd ~/twrp
+          repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1
+          repo sync -j$(nproc) --force-sync --no-clone-bundle --no-tags
+
+      - name: Link Device Tree
+        run: |
+          mkdir -p ~/twrp/device/infinix
+          ln -s $GITHUB_WORKSPACE ~/twrp/device/infinix/X6876
+
+      - name: Start Compilation
+        run: |
+          cd ~/twrp
+          source build/envsetup.sh
+          export ALLOW_MISSING_DEPENDENCIES=true
+          lunch twrp_X6876-eng
+          mka vendorbootimage -j$(nproc) || mka recoveryimage -j$(nproc)
+
+      - name: Upload Recovery Output
+        uses: actions/upload-artifact@v4
+        with:
+          name: Infinix-GT-30-TWRP
+          path: |
+            /home/runner/twrp/out/target/product/X6876/vendor_boot.img
+            /home/runner/twrp/out/target/product/X6876/recovery.img
