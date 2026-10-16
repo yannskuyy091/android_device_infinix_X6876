@@ -39,7 +39,15 @@ jobs:
           mkdir -p ~/twrp
           cd ~/twrp
           repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1
-          repo sync -j$(nproc) --force-sync --no-clone-bundle --no-tags
+
+          # Loop retry untuk menangani HTTP 503 rate-limiting dari Google
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          until repo sync -c -j4 --force-sync --no-clone-bundle --no-tags || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+            echo "Repo sync gagal karena HTTP 503/network issue. Mencoba lagi dalam 10 detik... (Attempt $((RETRY_COUNT+1))/$MAX_RETRIES)"
+            RETRY_COUNT=$((RETRY_COUNT+1))
+            sleep 10
+          done
 
       - name: Link Device Tree
         run: |
