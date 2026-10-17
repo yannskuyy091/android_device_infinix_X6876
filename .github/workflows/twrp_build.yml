@@ -61,10 +61,22 @@ jobs:
           lunch twrp_X6876-eng
           mka vendorbootimage -j$(nproc) || mka recoveryimage -j$(nproc)
 
+      - name: Start Compilation
+        run: |
+          cd ~/twrp
+          source build/envsetup.sh
+          export ALLOW_MISSING_DEPENDENCIES=true
+          lunch twrp_X6876-eng
+          mka vendorbootimage -j$(nproc) || mka recoveryimage -j$(nproc)
+
+      - name: Check Output Directory Structure
+        run: |
+          echo "=== Isi folder target produk X6876 ==="
+          ls -la /home/runner/twrp/out/target/product/X6876/ || true
+
       - name: Upload Recovery Output
         uses: actions/upload-artifact@v4
         with:
           name: Infinix-GT-30-TWRP
-          path: |
-            /home/runner/twrp/out/target/product/X6876/**/*.img
-            /home/runner/twrp/out/target/product/X6876/**/*.zip
+          path: /home/runner/twrp/out/target/product/X6876/*.img
+          if-no-files-found: ignore
